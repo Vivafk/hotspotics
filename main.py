@@ -1,2 +1,2 @@
 
-print('LOL')
+print('Check work of git')
