@@ -1,33 +1,31 @@
 from telethon.sync import TelegramClient
+from pers_data import *
 import json
 
+# f = open('stile.txt', 'r')
+# l = f.readlines()
+# f.close()
+# l = [line.rstrip() for line in l]
+# di = l[0]
+# hash = l[1]
+# api_id = di
+# api_hash = hash
+# l = []
 
-f = open('stile.txt', 'r')
-l = f.readlines()
-f.close()
-l = [line.rstrip() for line in l]
-di = l[0]
-hash = l[1]
-api_id = di
-api_hash = hash
-l=[]
-
-
-
-username = 'Vivafk'
-p = open('ps.txt', 'r')
-l = p.readlines()
-p.close()
-l = [line.rstrip() for line in l]
-p.close()
-
-password = l[0]
+# username = '@Vivafk'
+# p = open('ps.txt', 'r')
+# l = p.readlines()
+# p.close()
+# l = [line.rstrip() for line in l]
+# p.close()
+#
+# password = l[0]
 
 client = TelegramClient(username, api_id, api_hash)
 client.start()
 
 # Идентификатор канала, из которого хотите скачать посты
-channel_username = 'channel_username'
+channel_username = 'https://t.me/bdufstecru'
 channel_entity = client.get_entity(channel_username)
 
 # Скачивание постов и сохранение в файл JSON
