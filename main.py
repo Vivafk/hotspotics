@@ -1,11 +1,27 @@
 from telethon.sync import TelegramClient
 import json
 
-api_id = 'your_api_id'
-api_hash = 'your_api_hash'
 
-username = 'your_username'
-password = 'your_password'
+f = open('stile.txt', 'r')
+l = f.readlines()
+f.close()
+l = [line.rstrip() for line in l]
+di = l[0]
+hash = l[1]
+api_id = di
+api_hash = hash
+l=[]
+
+
+
+username = 'Vivafk'
+p = open('ps.txt', 'r')
+l = p.readlines()
+p.close()
+l = [line.rstrip() for line in l]
+p.close()
+
+password = l[0]
 
 client = TelegramClient(username, api_id, api_hash)
 client.start()
