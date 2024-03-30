@@ -10,7 +10,7 @@ bot = telebot.TeleBot('6995041657:AAH7KS37WX2mpGrURdejFsyDQ6G_EayUJUA')
 @bot.message_handler(commands=['start'])
 def handle_start(message):
     bot.send_message(message.chat.id, 'Приветствуем Вас в сервисе онлайн мониторинга'
-                                      ' <i>уязвимостей</i>. \nДля регистрации введите /reg', parse_mode='html', )
+                                      ' <i>уязвимостей</i>. \nДля авторизации введите /reg', parse_mode='html', )
 
 
 @bot.message_handler(commands=['reg'])
@@ -33,25 +33,38 @@ def user_login(message):
         bot.send_message(message.chat.id, '<b>Пароль:</b>', parse_mode='html')
     bot.register_next_step_handler(message, user_password)
     if message.text == "Список компонентов":
-        bot.send_message(message.chat.id, text="1. Operating systems\n2. DBMS\n3. Software protection tools\n4. Software and hardware protection\n5. Software for network hardware and software\n6. Network software\n7. Information Systems Application Software\n8. Software and hardware\n9. Automated control System software tool\n10. Firmware code\n\n<b>Введите номера необходимых пунктов через пробел</b>", parse_mode='html')
+        bot.send_message(message.chat.id, text="Вот актуальный список компонентов:\n"
+                                               "1.Операционные системы\n"
+                                               "2.СУБД\n"
+                                               "3.Программные средства защиты\n"
+                                               "4.ПО программно-аппаратных средств защиты\n"
+                                               "5.ПО сетевого программно-аппаратного средства\n"
+                                               "6.Сетевое программное обеспечение\n"
+                                               "7.Прикладное ПО информационных систем\n"
+                                               "8.ПО программно-аппаратного средства\n"
+                                               "9.Программное средство АСУ ТП\n"
+                                               "10.Микропрограммный код\n"
+                                               "Для выбора компонента напишите его номер .\n"
+                                               "Вы также можете создать отдельный проект и добавить в него уязвимости.\n"
+                                               "По команде /full будет предоставлена ссылка на полный список актуальных уязвимостей", parse_mode='html')
 
-
-
-@bot.message_handler(content_types=['text'])
 def keys(message):
-    print(message)
     global components
-    user_sel = list(message.text.strip())
+    user_sel = message.text.strip().split()  # Разделение введенных номеров по пробелу
     keywords = []
-    list(map(int, user_sel))
-    for i in range(len(components)):
-        if str(i + 1) in user_sel:
-            keywords.append(components[i])
-    bot.send_message(message.chat.id, text=f'Для отслеживания выбраны пункты {keywords}. Отслеживание начато')
-    print(keywords)
-    from pars import parser
-    reply = parser(keywords)
-    bot.send_message(message.chat.id, text=reply)
+    for num in user_sel:
+        try:
+            index = int(num) - 1  # Преобразование номера в индекс списка components
+            if 0 <= index < len(components):  # Проверка допустимого диапазона индексов
+                keywords.append(components[index].strip())  # Добавление выбранного компонента в keywords
+        except ValueError:
+            pass  # Пропустить неправильные вводы, которые не являются числами
+    if keywords:
+        bot.send_message(message.chat.id, text=f'Для отслеживания выбраны пункты {keywords}. Отслеживание начато')
+        print(keywords)
+        # Здесь должен быть ваш код для обработки ключевых слов и выполнения дальнейших действий
+    else:
+        bot.send_message(message.chat.id, text="Неверные номера компонентов. Повторите ввод.")
 
 
 
